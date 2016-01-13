@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Choozze</string>
+    <string name="internet">internet</string>
+    <string name="minutes">minuten</string>
+    <string name="of_the">van de</string>
+    <string name="texts">smsjes</string>
+    <string name="error_fetching">Fout bij het ophalen van de data, misschien geen internet?</string>
+    <string name="cancel">Annuleren</string>
+    <string name="loading">Laden..</string>
+    <string name="login">Inloggen</string>
+    <string name="login_failed">Inloggen mislukt</string>
+    <string name="login_success">Gegevens geladen!</string>
+    <string name="logout">Uitloggen</string>
+    <string name="not_logged_in">Niet ingelogd</string>
+    <string name="outside_bundle_costs">Buitenbundelkosten</string>
+    <string name="refresh">Vernieuwen</string>
+</resources>

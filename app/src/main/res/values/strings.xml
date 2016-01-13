@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Choozze</string>
+    <string name="error_fetching">Error fetching data, no internet maybe?</string>
+    <string name="of_the">of the</string>
+    <string name="internet">internet</string>
+    <string name="texts">texts</string>
+    <string name="minutes">minutes</string>
+    <string name="loading">Loading..</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="login_success">Data Loaded!</string>
+    <string name="cancel">Cancel</string>
+    <string name="login">Login</string>
+    <string name="not_logged_in">Not logged in</string>
+    <string name="logout">Logout</string>
+    <string name="outside_bundle_costs">Outside Bundle Costs</string>
+    <string name="refresh">Refresh</string>
+</resources>
