@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupTextViews();
         setupFab();
-
-        handleLogin();
     }
 
     private void setupTextViews() {
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Register ourselves so that we can provide the initial value.
         ChoozzeApplication.ChoozzeBus.getBus().register(this);
+        handleLogin();
     }
 
     @Override
