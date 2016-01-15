@@ -3,6 +3,7 @@ package com.dennisvandalen.choozze;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dennisvandalen.choozze.event.FetchUsageEvent;
 import com.dennisvandalen.choozze.event.JsoupFailedEvent;
@@ -23,44 +23,60 @@ import com.squareup.otto.Subscribe;
 
 import org.jsoup.nodes.Document;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewSms;
-    private TextView textViewSmsUsed;
-    private TextView textViewCall;
-    private TextView textViewCallUsed;
-    private TextView textViewInternet;
-    private TextView textViewInternetUsed;
-    private TextView textViewOther;
-    private TextView textViewCosts;
-    private TextView textViewType;
-    private TextView textViewStatus;
+    @Bind(R.id.sms)
+    TextView textViewSms;
+
+    @Bind(R.id.smsUsed)
+    TextView textViewSmsUsed;
+
+    @Bind(R.id.call)
+    TextView textViewCall;
+
+    @Bind(R.id.callUsed)
+    TextView textViewCallUsed;
+
+    @Bind(R.id.internet)
+    TextView textViewInternet;
+
+    @Bind(R.id.internetUsed)
+    TextView textViewInternetUsed;
+
+    @Bind(R.id.other)
+    TextView textViewOther;
+
+    @Bind(R.id.costs)
+    TextView textViewCosts;
+
+    @Bind(R.id.type)
+    TextView textViewType;
+
+    @Bind(R.id.status)
+    TextView textViewStatus;
+
+    @Bind(R.id.refresh_button)
+    FloatingActionButton refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         // @todo: refactor
         new SecurePrefManagerInit.Initializer(getApplicationContext())
                 .useEncryption(true)
                 .initialize();
-
-        setupTextViews();
-        setupFab();
     }
 
-    private void setupTextViews() {
-        textViewSms = (TextView) this.findViewById(R.id.sms);
-        textViewSmsUsed = (TextView) this.findViewById(R.id.smsUsed);
-        textViewCall = (TextView) this.findViewById(R.id.call);
-        textViewCallUsed = (TextView) this.findViewById(R.id.callUsed);
-        textViewInternet = (TextView) this.findViewById(R.id.internet);
-        textViewInternetUsed = (TextView) this.findViewById(R.id.internetUsed);
-        textViewOther = (TextView) this.findViewById(R.id.other);
-        textViewCosts = (TextView) this.findViewById(R.id.costs);
-        textViewType = (TextView) this.findViewById(R.id.type);
-        textViewStatus = (TextView) this.findViewById(R.id.status);
+    @OnClick(R.id.refresh_button)
+    public void refreshClick(View v) {
+        handleLogin();
     }
 
     @Override
@@ -81,23 +97,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * FloatingActionButton, our refresh button
-     */
-    private void setupFab() {
-        FloatingActionButton myFab = (FloatingActionButton) this.findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                handleLogin();
-            }
-        });
-    }
-
-    /**
      * Try login and fetch usage
      *
      * @todo: refactor
      */
     private void handleLogin() {
+        startRotateRefresh();
+
         String username = SecurePrefManager.with(this)
                                            .get("login_username")
                                            .defaultValue("")
@@ -200,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (document == null || !document.select("body > div.container > div > p:nth-child(4)").hasText()) {
             loginDialog();
-            Toast.makeText(MainActivity.this, R.string.login_failed, Toast.LENGTH_LONG).show();
+            Snackbar.make(getWindow().getDecorView().getRootView(), R.string.login_failed, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
 
             return;
         }
@@ -224,7 +231,10 @@ public class MainActivity extends AppCompatActivity {
         textViewCosts.setText(usage.getCosts());
 
         showResults(true);
-        Toast.makeText(MainActivity.this, R.string.login_success, Toast.LENGTH_SHORT).show();
+        stopRotateRefresh();
+
+        Snackbar.make(getWindow().getDecorView().getRootView(), R.string.login_success, Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
     }
 
     /**
@@ -302,5 +312,19 @@ public class MainActivity extends AppCompatActivity {
                          .confirm();
 
         handleLogin();
+    }
+
+    /**
+     * Start rotating refresh button
+     */
+    private void startRotateRefresh() {
+        RotateAnimator.rotate360(refreshButton);
+    }
+
+    /**
+     * Stop rotating refresh button
+     */
+    private void stopRotateRefresh() {
+        refreshButton.setAnimation(null);
     }
 }
