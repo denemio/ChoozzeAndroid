@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Choozze</string>
     <string name="error_fetching">Error fetching data, no internet maybe?</string>
-    <string name="of_the">of the</string>
+    <string name="of_the">used of the</string>
     <string name="internet">internet</string>
     <string name="texts">texts</string>
     <string name="minutes">minutes</string>

@@ -3,7 +3,7 @@
     <string name="app_name">Choozze</string>
     <string name="internet">internet</string>
     <string name="minutes">minuten</string>
-    <string name="of_the">van de</string>
+    <string name="of_the">gebruikt van de</string>
     <string name="texts">smsjes</string>
     <string name="error_fetching">Fout bij het ophalen van de data, misschien geen internet?</string>
     <string name="cancel">Annuleren</string>
