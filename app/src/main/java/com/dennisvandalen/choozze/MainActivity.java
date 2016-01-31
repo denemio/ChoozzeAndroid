@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void get(JsoupFailedEvent jsoupFailedEvent) {
         textViewStatus.setText(R.string.error_fetching);
+        stopRotateRefresh();
     }
 
     /**
