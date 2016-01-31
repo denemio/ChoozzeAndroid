@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         // Register ourselves so that we can provide the initial value.
-        ChoozzeApplication.ChoozzeBus.getBus().register(this);
+        ChoozzeApplication.bus.register(this);
         handleLogin();
     }
 
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         // Always unregister when an object no longer should be on the bus.
-        ChoozzeApplication.ChoozzeBus.getBus().unregister(this);
+        ChoozzeApplication.bus.unregister(this);
     }
 
     /**
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             loginDialog();
         } else {
             // Fetch usage, when credentials are set
-            ChoozzeApplication.ChoozzeBus.getBus().post(new FetchUsageEvent(username, password));
+            ChoozzeApplication.bus.post(new FetchUsageEvent(username, password));
         }
     }
 

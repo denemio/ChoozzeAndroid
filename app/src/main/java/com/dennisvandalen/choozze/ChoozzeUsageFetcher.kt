@@ -2,11 +2,9 @@ package com.dennisvandalen.choozze
 
 import com.dennisvandalen.choozze.event.JsoupFailedEvent
 import com.dennisvandalen.choozze.event.UsageEvent
-
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-
 import java.io.IOException
+import java.util.*
 
 class ChoozzeUsageFetcher(private val login_username: String, private val password: String) : Thread() {
 
@@ -17,12 +15,13 @@ class ChoozzeUsageFetcher(private val login_username: String, private val passwo
         var doc: Document? = null
 
         try {
-            doc = Jsoup.connect("https://choozze.me/login.php")
-                    .data("login-username", login_username)
-                    .data("password", password)
-                    .data("action", "login")
-                    .userAgent("Mozilla")
-                    .post()
+            val data = HashMap<String, String>()
+            data.put("login-username", login_username)
+            data.put("password", password)
+            data.put("remember", "on")
+            data.put("action", "login")
+
+            doc = ChoozzeApplication.httpClient.post("https://choozze.me/login.php", data)
 
             val statusEvent = UsageEvent(doc)
             ChoozzeApplication.bus.post(statusEvent)
